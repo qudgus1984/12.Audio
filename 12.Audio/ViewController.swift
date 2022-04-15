@@ -21,7 +21,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    @IBAction func btnPlayAudio(_ sender: UIButton) {
+    }
+    @IBAction func btnPauseAudio(_ sender: UIButton) {
+    }
+    @IBAction func btnStopAudio(_ sender: UIButton) {
+    }
+    
 
 }
 
