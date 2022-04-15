@@ -104,6 +104,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="220" id="7qc-QO-6ER"/>
                                                 </constraints>
+                                                <connections>
+                                                    <action selector="slChangeVolume:" destination="BYZ-38-t0r" eventType="valueChanged" id="BKh-Yc-2VM"/>
+                                                </connections>
                                             </slider>
                                         </subviews>
                                     </stackView>

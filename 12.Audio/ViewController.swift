@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     }
     @IBAction func btnStopAudio(_ sender: UIButton) {
     }
+    @IBAction func slChangeVolume(_ sender: UISlider) {
+    }
     
 
 }
