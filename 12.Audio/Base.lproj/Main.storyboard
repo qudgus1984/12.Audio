@@ -109,9 +109,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnPause" destination="8cC-Xg-3b6" id="zZ1-Z1-hz3"/>
+                        <outlet property="btnPlay" destination="fva-FY-rcl" id="pqQ-hO-O8O"/>
+                        <outlet property="btnStop" destination="6jW-hj-4sd" id="0nb-xs-53H"/>
                         <outlet property="lblCurrentTime" destination="sBW-3x-kKo" id="vRl-B7-bEe"/>
                         <outlet property="lblEndTime" destination="b74-FX-lBi" id="6C0-3X-W68"/>
                         <outlet property="pvProgressPlay" destination="2fQ-8x-zwl" id="ceA-UX-CcD"/>
+                        <outlet property="slVolume" destination="588-8m-62b" id="vAM-hM-WZb"/>
                     </connections>
                 </viewController>
             </objects>

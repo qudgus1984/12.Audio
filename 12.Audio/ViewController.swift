@@ -12,6 +12,10 @@ class ViewController: UIViewController {
     @IBOutlet var pvProgressPlay: UIProgressView!
     @IBOutlet var lblCurrentTime: UILabel!
     @IBOutlet var lblEndTime: UILabel!
+    @IBOutlet var btnPlay: UIButton!
+    @IBOutlet var btnPause: UIButton!
+    @IBOutlet var btnStop: UIButton!
+    @IBOutlet var slVolume: UISlider!
     
     override func viewDidLoad() {
         super.viewDidLoad()
