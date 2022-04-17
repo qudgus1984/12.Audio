@@ -73,6 +73,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         setPlayButtons(true, pause: false, stop: true)
     }
     @IBAction func btnStopAudio(_ sender: UIButton) {
+        audioPlayer.stop()
+        setPlayButtons(true, pause: false, stop: false)
     }
     @IBAction func slChangeVolume(_ sender: UISlider) {
     }
