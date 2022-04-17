@@ -14,6 +14,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     var audioFile : URL! // 재생할 오디오의 파일명 변수
     let MAX_VOLUME : Float = 10.0 // 최대 볼륨, 실수형 상수
     var progressTimer : Timer! // 타이머를 위한 변수
+    
+    let timePlayerSelector:Selector = #selector(ViewController.updatePlayTime)
 
     @IBOutlet var pvProgressPlay: UIProgressView!
     @IBOutlet var lblCurrentTime: UILabel!
@@ -67,6 +69,14 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     @IBAction func btnPlayAudio(_ sender: UIButton) {
         audioPlayer.play() // audioPlayer 함수를 실행해 오디오를 재생
         setPlayButtons(false, pause: true, stop: true) // Play 버튼은 비활성화, 나머지 두 버튼은 활성화
+        progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timePlayerSelector, userInfo: nil, repeats: true)
+    }
+    
+    @objc func updatePlayTime() {
+        lblCurrentTime.text = convertNSTimeInterval2Sring(audioPlayer.currentTime)
+        // 재생시간인 audioPlayer.currentTime을 레이블 lblCurrentTime에 나타냄
+        pvProgressPlay.progress = Float(audioPlayer.currentTime/audioPlayer.duration)
+        // 프로그레스 뷰인 pvProgress Play 진행상황에 audioPlayer.currentTime을 audioPlayer.duration으로 나눈 값으로 표시
     }
     @IBAction func btnPauseAudio(_ sender: UIButton) {
         audioPlayer.pause()
