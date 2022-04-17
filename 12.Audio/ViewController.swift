@@ -90,8 +90,13 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         progressTimer.invalidate() // 타이머도 무효화함
     }
     @IBAction func slChangeVolume(_ sender: UISlider) {
+        audioPlayer.volume = slVolume.value
     }
     
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        progressTimer.invalidate() // 타이머를 무효화함
+        setPlayButtons(true, pause: false, stop: false) // Play 버튼은 활성화, 나머지 버튼은 비활성화
+    }
 
 }
 
