@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, AVAudioPlayerDelegate {
+class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDelegate {
     
     var audioPlayer : AVAudioPlayer! // AVAudioPlayer 인스턴스 변수
     var audioFile : URL! // 재생할 오디오의 파일명 변수
@@ -36,7 +36,13 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         selectAudioFile()
-        initPlay()
+        if !isRecordMode {
+        initPlay() // if문의 조건이 !isRecordMode 임. 녹음 모드가 아니라면 이므로 재생모드를 의미함.
+            btnRecord.isEnabled = false
+            lblRecordTime.isEnabled = false // 조건에 해당하는 것이 재생모드이므로 Record 버튼과 재생 시간은 비활성화
+        } else {
+            initRecord() // 조건에 해당하지 않는 경우, 이는 녹음모드이므로 initRecord 함수 불러옴
+        }
     }
     
     func selectAudioFile() {
@@ -46,6 +52,40 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] // 재생 모드일 때는 오디오 파일인 Sicilian_Breeze.mp3가 선택됌
             audioFile = documentDirectory.appendingPathComponent("recordFile.m4a")
             // 녹음 모드일 때는 새 파일인 "recordFile.m4a"가 생성
+        }
+    }
+    
+    func initRecord() {
+        let recordSettings = [
+            AVFormatIDKey : NSNumber(value: kAudioFormatAppleLossless as UInt32),
+            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+            AVEncoderBitRateKey : 320000,
+            AVNumberOfChannelsKey : 2,
+            AVSampleRateKey : 44100.0] as [String : Any]
+        do {
+            audioRecord = try AVAudioRecorder(url: audioFile, settings: recordSettings)
+        } catch let error as NSError {
+            print("Error-initRecord : \(error)")
+        }
+        
+        
+        slVolume.value = 1.0 // 볼륨 슬라이더 값을 1.0으로 설정
+        audioPlayer.volume = 1.0 // audioPlayer의 볼륨도 슬라이더 값과 동일한 1.0으로 설정
+        lblEndTime.text = convertNSTimeInterval2Sring(0) // 총 재생시간을 0으로 바꿈
+        lblCurrentTime.text = convertNSTimeInterval2Sring(0) // 현재 재생시간을 0으로 바꿈
+        setPlayButtons(false, pause: false, stop: false) // Play, Pause, Stop 버튼을 비활성화로 설정
+        
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let error as NSError {
+            print("Error-setCategory: \(error)")
+        }
+        do {
+            try session.setActive(true)
+        } catch let error as NSError {
+            print("Error-setActive : \(error)")
         }
     }
     
