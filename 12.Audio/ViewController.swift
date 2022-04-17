@@ -69,6 +69,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
         }
         
         
+        
         slVolume.value = 1.0 // 볼륨 슬라이더 값을 1.0으로 설정
         audioPlayer.volume = 1.0 // audioPlayer의 볼륨도 슬라이더 값과 동일한 1.0으로 설정
         lblEndTime.text = convertNSTimeInterval2Sring(0) // 총 재생시간을 0으로 바꿈
@@ -156,6 +157,26 @@ class ViewController: UIViewController, AVAudioPlayerDelegate, AVAudioRecorderDe
     }
 
     @IBAction func swRecordMode(_ sender: UISwitch) {
+        if sender.isOn {
+            audioPlayer.stop()
+            audioPlayer.currentTime = 0
+            lblRecordTime!.text = convertNSTimeInterval2Sring(0)
+            isRecordMode = true
+            btnRecord.isEnabled = true
+            lblRecordTime.isEnabled = true
+            // 스위치가 on일땐 녹음모디이므로 오디오 재생 중지, 현재 재생시간 00:00 isRecord의 값을 참으로 설정하고 Record 버튼과 녹음 시간 활성화
+        } else {
+            isRecordMode = false
+            btnRecord.isEnabled = false
+            lblRecordTime.isEnabled = false
+            lblRecordTime.text = convertNSTimeInterval2Sring(0)
+        } // 스위치가 재생모드일때는 isRecord값을 거짓으로 설정, Record 버튼과 녹음 시간을 비활성화하며 녹음시간 0으로 초기화됌
+        selectAudioFile()
+        if !isRecordMode{
+            initPlay()
+        } else {
+            initRecord()
+        } // selectAudioFile함수를 호출하여 오디오 파일을 선택하고 모드에 따라 초기화할 함수를 호출함
     }
     @IBAction func btnRecord(_ sender: UIButton) {
     }
