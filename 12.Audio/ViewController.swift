@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVAudioPlayerDelegate {
+    
+    var audioPlayer : AVAudioPlayer! // AVAudioPlayer 인스턴스 변수
+    var audioFile : URL! // 재생할 오디오의 파일명 변수
+    let MAX_VOLUME : Float = 10.0 // 최대 볼륨, 실수형 상수
+    var progressTimer : Timer! // 타이머를 위한 변수
 
     @IBOutlet var pvProgressPlay: UIProgressView!
     @IBOutlet var lblCurrentTime: UILabel!
