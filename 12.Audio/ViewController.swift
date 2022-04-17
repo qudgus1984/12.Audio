@@ -48,6 +48,13 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         // 오디오 파일의 재생시간인 audioPlayer.duration 값을 convertNS..함수를 이용해 lblEndTime의 텍스트에 출력
         lblCurrentTime.text = convertNSTimeInterval2Sring(0)
         // lblCurrentTime의 텍스트에는 convertNS...함수를 이용해 00:00 가 출력되도록 0의 값을 입력
+        setPlayButtons(true, pause: false, stop: false)
+    }
+    
+    func setPlayButtons (_ play:Bool, pause:Bool, stop:Bool) {
+        btnPlay.isEnabled = play
+        btnPause.isEnabled = pause
+        btnStop.isEnabled = stop
     }
     
     func convertNSTimeInterval2Sring(_ time: TimeInterval) -> String {
@@ -58,8 +65,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     @IBAction func btnPlayAudio(_ sender: UIButton) {
+        audioPlayer.play() // audioPlayer 함수를 실행해 오디오를 재생
+        setPlayButtons(false, pause: true, stop: true) // Play 버튼은 비활성화, 나머지 두 버튼은 활성화
     }
     @IBAction func btnPauseAudio(_ sender: UIButton) {
+        audioPlayer.pause()
+        setPlayButtons(true, pause: false, stop: true)
     }
     @IBAction func btnStopAudio(_ sender: UIButton) {
     }
