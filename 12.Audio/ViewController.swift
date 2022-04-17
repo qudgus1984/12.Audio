@@ -27,13 +27,26 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet var btnRecord: UIButton!
     @IBOutlet var lblRecordTime: UILabel!
     
+    var audioRecord : AVAudioRecorder! // audioRecorder 인스턴스 추가
+    var isRecordMode = false // 현재 녹음모드라는 것을 나타낼 isRecordMode를 추가 기본값을 false로 설정
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        audioFile = Bundle.main.url(forResource: "Sicilian_Breeze", withExtension: "mp3")
+        selectAudioFile()
         initPlay()
+    }
+    
+    func selectAudioFile() {
+        if !isRecordMode {
+            audioFile = Bundle.main.url(forResource: "Sicilian_Breeze", withExtension: "mp3")
+        } else {
+            let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] // 재생 모드일 때는 오디오 파일인 Sicilian_Breeze.mp3가 선택됌
+            audioFile = documentDirectory.appendingPathComponent("recordFile.m4a")
+            // 녹음 모드일 때는 새 파일인 "recordFile.m4a"가 생성
+        }
     }
     
     func initPlay() {
