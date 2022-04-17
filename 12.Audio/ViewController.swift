@@ -84,7 +84,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     }
     @IBAction func btnStopAudio(_ sender: UIButton) {
         audioPlayer.stop()
+        audioPlayer.currentTime = 0 // 오디오를 정지하고 다시 재생하면 처음부터 재생해야 하므로 현재시간을 0으로 변경
+        lblCurrentTime.text = convertNSTimeInterval2Sring(0) // 재생 시간도 00:00으로 초기화하기 위해 conv..(0)활용
         setPlayButtons(true, pause: false, stop: false)
+        progressTimer.invalidate() // 타이머도 무효화함
     }
     @IBAction func slChangeVolume(_ sender: UISlider) {
     }
