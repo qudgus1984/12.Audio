@@ -26,7 +26,37 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        audioFile = Bundle.main.url(forResource: "Sicilian_Breeze", withExtension: "mp3")
+        initPlay()
     }
+    
+    func initPlay() {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioFile)
+        } catch let error as NSError {
+            print("Error-initPlay : \(error)")
+        }
+        slVolume.maximumValue = MAX_VOLUME // 슬라이더의 최대 볼륨을 상수 MAX_VOLUME인 10.0으로 초기화
+        slVolume.value = 1.0 // 슬라이더의 볼륨을 1.0으로 초기화
+        pvProgressPlay.progress = 0 // 프로그레스 뷰의 진행을 0으로 초기화
+        
+        audioPlayer.delegate = self // audioPlayer의 델리게이트를 self로 함
+        audioPlayer.prepareToPlay() // prepareToPlay()을 실행함
+        audioPlayer.volume = slVolume.value // audioPlayer의 볼륨을 방금 앞에서 초기화한 슬라이더의 볼륨값 1.0으로 초기화함
+        
+        lblEndTime.text = convertNSTimeInterval2Sring(audioPlayer.duration)
+        // 오디오 파일의 재생시간인 audioPlayer.duration 값을 convertNS..함수를 이용해 lblEndTime의 텍스트에 출력
+        lblCurrentTime.text = convertNSTimeInterval2Sring(0)
+        // lblCurrentTime의 텍스트에는 convertNS...함수를 이용해 00:00 가 출력되도록 0의 값을 입력
+    }
+    
+    func convertNSTimeInterval2Sring(_ time: TimeInterval) -> String {
+        let min = Int(time/60) // 재생 시간의 매개변수인 time의 값을 60으로 나눈 몫을 상수 min에 초기화
+        let sec = Int(time.truncatingRemainder(dividingBy: 60)) // time을 60으로 나눈 나머지를 sec 값에 초기화
+        let strTime = String(format: "%02d:%02d", min, sec) // 두 값을 활용해 02d:02d 형태의 문자열로 변환하여 초기화
+        return strTime // 이 값을 호출한 함수에 돌려보냄
+    }
+    
     @IBAction func btnPlayAudio(_ sender: UIButton) {
     }
     @IBAction func btnPauseAudio(_ sender: UIButton) {
